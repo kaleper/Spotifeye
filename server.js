@@ -4,16 +4,9 @@ import { URLSearchParams } from "url";
 // Require vs import
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
+
 dotenv.config();
-
-console.log(process.env);
-
-
 const app = express();
-
-
-
-// app.set("views)", "./views");
 
 // Files to be displayed in public folder
 app.use (express.static("public"));
@@ -26,7 +19,7 @@ app.get("/", (request, response) => {
 const redirect_uri = "http://localhost:3000/callback";
 const client_id = "d764ab4503c14f3392d2ffcfb9530fcf";
 // Set up environment variable, use node package dotenv
-const api_key = process.env.API_KEY;
+const client_secret = process.env.CLIENT_SECRET;
 
 
 // Request
@@ -48,7 +41,7 @@ app.get("/authorize", (request, response) => {
 });
 
 // Response and token request 
-app.get("/callback", (request, response) => {
+ app.get("/callback", async (request, response) => {
     // Can implement state later. Will contain auth code when user grants access
     const code = request.query.code;
 
@@ -60,16 +53,23 @@ app.get("/callback", (request, response) => {
         grant_type: "authorization_code"
     })
 
-    // POST request to spotify server 
-    // const newResponse = await fetch("https://accounts.spotify.com/api/token", {
-    //     method: "post",
-    //     body: bodyResponse,
-    //     // Required headers per spotify docs 
-    //     headers: {
-    //         "Content-Type": "application/x-www-form-urlencoded",
-    //         "Authorization": "" 
-    //     }
-    // })
+    //Node fetch to send POST request to spotify server 
+    const newResponse = await fetch("https://accounts.spotify.com/api/token", {
+        method: "post",
+        body: bodyResponse,
+        // Required headers per spotify docs 
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Buffer, client ID and client secret key make up a base 64 encoded string
+            Authorization: "Basic " + Buffer.from(client_id + ":" + client_secret).toString("base64")
+        }
+    });
+
+    // Converts data received to json and stores in data
+    const data = await newResponse.json();
+    
+    // Displays access token and related information from spotify
+    console.log(data);
 
     
 });
