@@ -1,9 +1,11 @@
 import express from "express";
 import { URLSearchParams } from "url";
 // Requires to be loaded into environment variable
-require('dotenv').config();
+// Require vs import
+import dotenv from 'dotenv';
+dotenv.config();
 
-
+console.log(process.env);
 
 
 const app = express();
@@ -23,7 +25,7 @@ app.get("/", (request, response) => {
 const redirect_uri = "http://localhost:3000/callback";
 const client_id = "d764ab4503c14f3392d2ffcfb9530fcf";
 // Set up environment variable, use node package dotenv
-const api_key = "hidden";
+const api_key = process.env.API_KEY;
 
 
 // Request
@@ -58,15 +60,15 @@ app.get("/callback", (request, response) => {
     })
 
     // POST request to spotify server 
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-        method: "post",
-        body: bodyResponse,
-        // Required headers per spotify docs 
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "" 
-        }
-    })
+    // const newResponse = await fetch("https://accounts.spotify.com/api/token", {
+    //     method: "post",
+    //     body: bodyResponse,
+    //     // Required headers per spotify docs 
+    //     headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //         "Authorization": "" 
+    //     }
+    // })
 
     
 });
