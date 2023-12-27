@@ -1,17 +1,25 @@
 import express from "express";
 import { URLSearchParams } from "url";
 // Requires to be loaded into environment variable
-// Require vs import
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
+// Module in express that works with file and directory paths
+import path from 'path';
 
-dotenv.config();
+// Gets URL of module, converts to file path, and extracts directory name.
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const app = express();
 
-app.set('public', './views');
-app.set('view engine', 'ejs')
+dotenv.config();
 
-// Files to be displayed in public folder
+// Set the views directory and view engine. Joining ensures view directory is correctly identified regardless of current working directory
+app.set('views', path.join(__dirname, 'public'));
+app.set('view engine', 'ejs');
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Files to be displayed in public folder`
 app.use (express.static("public"));
 
 // Index generated when requested
