@@ -8,6 +8,9 @@ import fetch from 'node-fetch';
 dotenv.config();
 const app = express();
 
+app.set('public', './views');
+app.set('view engine', 'ejs')
+
 // Files to be displayed in public folder
 app.use (express.static("public"));
 
@@ -20,6 +23,7 @@ const redirect_uri = "http://localhost:3000/callback";
 const client_id = "d764ab4503c14f3392d2ffcfb9530fcf";
 // Set up environment variable, use node package dotenv
 const client_secret = process.env.CLIENT_SECRET;
+
 
 
 // Request
@@ -67,9 +71,11 @@ app.get("/authorize", (request, response) => {
 
     // Converts data received to json and stores in data
     const data = await newResponse.json();
-    
-    // Displays access token and related information from spotify
-    console.log(data);
+
+    // Saves access token
+    const access_token = data.access_token;
+
+    response.render("dashboard");
 
     
 });
