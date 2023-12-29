@@ -8,16 +8,35 @@
 
 </head>
 <body>
-    <h1>Welcome user!</h1><a href="/authorize">Log in</a>
-    <!--  <% %> Are EJS tags  -->
-    <p> <%= user.display_name %> </p>
-    <p>
-    
+      <!--  <% %> Are EJS tags  -->
+    <h1>Welcome <%= user.display_name %>! <br>
         <img src="<%= user.images[1].url %>" alt="User Image">
+    </h1>
+        <a href="/authorize">Log in</a>
 
+        <!-- Displays 10 most recent songs in table format -->
+        <table>
+            <% for (let t of tracks) { %>
+                <tr>
+                    <td> <p>Artist:<p> <%= t.track.artists[0].name %> </td>
+
+                    <td> <p>Track:</p> <%= t.track.name %> </td>
+
+                    <td> <p>Preview:</p> <a href="<%= t.track.preview_url %>" target="_blank">Listen</a> </td>
+                </tr>
+                
+            <% } %> 
+        </ul>
+        
+        
+       
+       
+    
          
         
     </p>
 
+
+    <script src="dashboardJS.ejs"></script>
 </body>
 </html>

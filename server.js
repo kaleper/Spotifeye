@@ -43,7 +43,7 @@ app.get("/authorize", (request, response) => {
         response_type: "code",
         client_id: client_id,
         // Permissions
-        scope:"",
+        scope:"user-library-read",
         // URI after granted/ denied access
         redirect_uri: redirect_uri
     });
@@ -88,11 +88,11 @@ app.get("/authorize", (request, response) => {
 
 });
 
-// API call - Get Current User's Profile 
-// https://developer.spotify.com/documentation/web-api/reference/get-current-users-profile
-app.get("/dashboard", async (request, response) => {
+// Reused for API calls, called when retrieving data 
+async function getData(endpoint) {
 
-    const res = await fetch("https://api.spotify.com/v1/me", {
+    // Adds to URL based on endpoint (What data is to be received)
+    const res = await fetch("https://api.spotify.com/v1" + endpoint, {
     method: "get",
     headers: { 
         Authorization: "Bearer " + global.access_token
@@ -100,13 +100,26 @@ app.get("/dashboard", async (request, response) => {
 });
 
     const data = await res.json();
-    console.log(data);
+    return data;
+}
+
+// API call - Get Current User's Profile, Get User Saved Tracks
+
+// https://developer.spotify.com/documentation/web-api/reference/get-current-users-profile
+
+//https://developer.spotify.com/documentation/web-api/reference/get-users-saved-tracks
+app.get("/dashboard", async (request, response) => {
+
+    // Addendum to the url that precedes extra directories(https://api.spotify.com/v1)
+    const userInfo = await getData("/me");
+    const userTracksInfo = await getData("/me/tracks");
+
     // Render dashboard, passes user data in to be used in dashboard.ejs
     // Syntax: .render(view [, locals] [, callback]))
-    response.render("dashboard", {user:data});
-
-
+    response.render("dashboard", {user: userInfo, tracks: userTracksInfo.items});
 })
+
+// API call - Get User's Saved Tracks
 
 let listener = app.listen(3000, () => { console.log(
     "App listening on http://localhost:" + listener.address().port);

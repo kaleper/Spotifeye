@@ -8,6 +8,4 @@ Utilizes Spotify's API to authenticate a user using their Spotify credentials an
  > **Priority:**
 
 
-#### Contributor:
-Kalen P
 
