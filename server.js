@@ -32,7 +32,8 @@ const client_id = "d764ab4503c14f3392d2ffcfb9530fcf";
 // Set up environment variable, use node package dotenv
 const client_secret = process.env.CLIENT_SECRET;
 
-
+// Global access_token declaration
+global.access_token;
 
 // Request
 app.get("/authorize", (request, response) => {
@@ -81,12 +82,31 @@ app.get("/authorize", (request, response) => {
     const data = await newResponse.json();
 
     // Saves access token
-    const access_token = data.access_token;
+    global.access_token = data.access_token;
 
-    response.render("dashboard");
+    response.redirect("/dashboard");
 
-    
 });
+
+// API call - Get Current User's Profile 
+// https://developer.spotify.com/documentation/web-api/reference/get-current-users-profile
+app.get("/dashboard", async (request, response) => {
+
+    const res = await fetch("https://api.spotify.com/v1/me", {
+    method: "get",
+    headers: { 
+        Authorization: "Bearer " + global.access_token
+    }
+});
+
+    const data = await res.json();
+    console.log(data);
+    // Render dashboard, passes user data in to be used in dashboard.ejs
+    // Syntax: .render(view [, locals] [, callback]))
+    response.render("dashboard", {user:data});
+
+
+})
 
 let listener = app.listen(3000, () => { console.log(
     "App listening on http://localhost:" + listener.address().port);

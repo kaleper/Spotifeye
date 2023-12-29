@@ -9,5 +9,15 @@
 </head>
 <body>
     <h1>Welcome user!</h1><a href="/authorize">Log in</a>
+    <!--  <% %> Are EJS tags  -->
+    <p> <%= user.display_name %> </p>
+    <p>
+    
+        <img src="<%= user.images[1].url %>" alt="User Image">
+
+         
+        
+    </p>
+
 </body>
 </html>
