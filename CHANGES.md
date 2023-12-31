@@ -13,3 +13,10 @@ WIP (12-29-2023)
 ==========================
 * Add API call to retrieve and display user information
 * Add API call to retrieve and display 10 of the most recent songs the user liked/ added to their library  
+
+WIP (12-31-2023)
+==========================
+* Add API call to retrieve and display user information
+* Removed functionality to display most recent songs
+* Added API call to retrieve user's top tracks and artists
+* Added sorting functions to display top genres based on the genres of the user's top artists

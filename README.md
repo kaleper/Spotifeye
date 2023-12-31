@@ -7,5 +7,8 @@ Utilizes Spotify's API to authenticate a user using their Spotify credentials an
 #### TODO:
  > **Priority:**
 
+ - Use external graph library to display top genres
+ - Style GUI 
+
 
 
