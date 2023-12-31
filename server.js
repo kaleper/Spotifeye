@@ -43,7 +43,7 @@ app.get("/authorize", (request, response) => {
         response_type: "code",
         client_id: client_id,
         // Permissions
-        scope:"user-library-read",
+        scope:"user-library-read, user-top-read",
         // URI after granted/ denied access
         redirect_uri: redirect_uri
     });
@@ -108,15 +108,21 @@ async function getData(endpoint) {
 // https://developer.spotify.com/documentation/web-api/reference/get-current-users-profile
 
 //https://developer.spotify.com/documentation/web-api/reference/get-users-saved-tracks
+
+//https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
 app.get("/dashboard", async (request, response) => {
 
     // Addendum to the url that precedes extra directories(https://api.spotify.com/v1)
     const userInfo = await getData("/me");
     const userTracksInfo = await getData("/me/tracks");
+    // Monthly Top
+    const userTopTracks = await getData("/me/top/tracks?limit=10&time_range=short_term");
+    // For artists and genres 
+    const userTopArtists = await getData("/me/top/artists?limit=10&time_range=short_term");
 
     // Render dashboard, passes user data in to be used in dashboard.ejs
     // Syntax: .render(view [, locals] [, callback]))
-    response.render("dashboard", {user: userInfo, tracks: userTracksInfo.items});
+    response.render("dashboard", {user: userInfo, tracks: userTracksInfo.items, topTracks: userTopTracks, topArtists: userTopArtists, topGenres: userTopArtists});
 })
 
 // API call - Get User's Saved Tracks
