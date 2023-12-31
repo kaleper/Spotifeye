@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="styles.css">
     <title>Spotify Data App</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
       <!--  <% %> Are EJS tags  -->
@@ -14,29 +16,107 @@
     </h1>
         <a href="/authorize">Log in</a>
 
-        <!-- Displays 10 most recent songs in table format -->
-        <table>
-            <% for (let t of tracks) { %>
-                <tr>
-                    <td> <p>Artist:<p> <%= t.track.artists[0].name %> </td>
+    <!-- User's Top Tracks: Last Month -->
+    <h6> Top Tracks: Last Month </h6>
+    <ol>
+        <% for (let t of topTracks.items) { %>
+                <li>  Track: <%= t.name %>  </li>
+        
+        <% } %> 
+    </ol>
 
-                    <td> <p>Track:</p> <%= t.track.name %> </td>
+    <!-- User's Top Artists: Last Month -->
+    <h6> Top Artists: Last Month </h6>
+        <ol>
+        <% for (let a of topArtists.items) { %>
+            
+                <li>  Artist: <%= a.name %>  </li>
+        
+        <% } %> 
+    </ol>
 
-                    <td> <p>Preview:</p> <a href="<%= t.track.preview_url %>" target="_blank">Listen</a> </td>
-                </tr>
+    <!-- User's Top Genre's: Last Month-->
+
+    <!-- Initialize Array with user's top genres of the month-->
+    <% let genreArray = []; %> 
+    <% for (let a of topGenres.items) { %>
+        <% for (let g of a.genres) { %>
+            <% genreArray.push(g); %>
+        <% } %> 
+    <% } %> 
+
+    <h6> Top Genres: Last Month</h6>
+    <% printTopGenres(genreArray) %>
+
+    <!-- Custom comparator function to sort by frequency -->
+    <% function compareGenreFrequency(genre, comparedGenre) { %>
+        <!-- [0] = frequency [1] == item -->
+        <!-- Checks if frequency is less, genre to be sorted after comparedGenre -->
+        <% if (genre[0] < comparedGenre[0]) { %>
+            <% return 1; %>
+        <!-- Checks if frequency is greater, genre to be sorted before comparedGenre-->
+        <% } else if (genre[0] > comparedGenre[0]) { %>
+            <% return -1; %>
+        <!-- If equal frequency, compares lexicographically. A > Z -->
+        <% } else if (genre[0] === comparedGenre[0]) { %>
+            <% if (genre[1] < comparedGenre[1]) { %>
+                <% return -1; %>
+            <% } else { %>
+                <% return 1; %>
+            <% } %>     
+        <% } %>  
+    <% } %>  
+
+    <!-- Prints frequency of genres listened to in descending order -->
+    <% function printTopGenres(genreArray) { %>
+
+        <!-- Create map to hold all of genres and their frequencies -->
+        <% let genreDictionary = {}; %>
+
+        <!-- Set all frequency of genres to zero -->
+        <% for (i = 0; i < genreArray.length; i++) { %>
+            <% genreDictionary[genreArray[i]] = 0 %>
+        <% } %>
+
+        <!-- Loop to store frequency of genre in map-->
+        <% for (i = 0; i < genreArray.length; i++) { %>
+            <% genreDictionary[genreArray[i]]++; %>
+        <% } %>
+
+        <!-- Iterator for the map-->
+        <% let iterator = new Array(genreArray.length); %>
+
+        <!-- Store an empty array for each array element-->
+        <% for (i = 0; i < genreArray.length; i++) { %>
+            <% iterator[i] = []; %>
+        <% } %>
+
+        <!-- Loop to store frequency and string in iterator -->
+        <% let j = 0; %>
+        <% for (let item in genreDictionary) { %>
+
+            <!--iterator[] holds frequency and genre-->
+            <% iterator[j] = [genreDictionary[item], item]; %>
+
+            <!-- Next index-->
+            <% j += 1; %>
+        <% } %>
+
+        <!-- Sort using custom comparator function -->
+        <% iterator.sort(compareGenreFrequency); %>
+
+        <!-- Print genres in order of frequency-->
+        <ol>
+            <% for (let i = 0; i < j; i++) { %>
                 
-            <% } %> 
-        </ul>
-        
-        
-       
-       
-    
-         
-        
-    </p>
+                <li><%="Genre: " + iterator[i][1] %></li>
+            <% } %>
+        </ol>
 
-
-    <script src="dashboardJS.ejs"></script>
-</body>
-</html>
+        <!-- Print genres represented as a percentage of their frequency -->
+        <ol>
+            <% for (let i = 0; i < j; i++) { %>
+                <li> <%="Genre: " + iterator[i][1] + ", " + (iterator[i][0] / genreArray.length * 100).toFixed(2) + "%" %> </li>
+            <% } %>
+        </ol>
+    <% } %>
