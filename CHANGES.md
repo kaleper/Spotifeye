@@ -20,3 +20,4 @@ WIP (12-31-2023)
 * Removed functionality to display most recent songs
 * Added API call to retrieve user's top tracks and artists
 * Added sorting functions to display top genres based on the genres of the user's top artists
+* Added pie chart to display top genres, which uses the Chart.js library
