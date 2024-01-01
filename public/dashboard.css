@@ -1,0 +1,9 @@
+* {
+    font-weight:normal;
+    font-size:1rem;
+}
+
+#pie-chart-container {
+    height: 600px;
+    width: 600px;
+}

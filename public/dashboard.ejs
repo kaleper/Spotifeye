@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
     <title>Spotify Data App</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
 
 </head>
 <body>
@@ -44,9 +44,16 @@
             <% genreArray.push(g); %>
         <% } %> 
     <% } %> 
-
+    <!-- Iterator for the map-->
+    <% let iterator = [] %>
+    <% let iteratorDestination = [] %>
+    <% let genresWithPercentages = []; %>
     <h6> Top Genres: Last Month</h6>
+    
+
     <% printTopGenres(genreArray) %>
+    <div id="mydiv" data-test="<%= iterator %>"></div>
+ 
 
     <!-- Custom comparator function to sort by frequency -->
     <% function compareGenreFrequency(genre, comparedGenre) { %>
@@ -68,6 +75,7 @@
     <% } %>  
 
     <!-- Prints frequency of genres listened to in descending order -->
+
     <% function printTopGenres(genreArray) { %>
 
         <!-- Create map to hold all of genres and their frequencies -->
@@ -83,8 +91,8 @@
             <% genreDictionary[genreArray[i]]++; %>
         <% } %>
 
-        <!-- Iterator for the map-->
-        <% let iterator = new Array(genreArray.length); %>
+        <!-- Sets length of iterator to genre array length -->
+        <% iterator.length = genreArray.length %>
 
         <!-- Store an empty array for each array element-->
         <% for (i = 0; i < genreArray.length; i++) { %>
@@ -105,6 +113,16 @@
         <!-- Sort using custom comparator function -->
         <% iterator.sort(compareGenreFrequency); %>
 
+        // Loop to calculate percentages and populate the new array
+       
+           <% for (let i = 0; i < j; i++) {
+                const genre = iterator[i][1];
+                const percentage = (iterator[i][0] / genreArray.length * 100).toFixed(2);
+                genresWithPercentages.push({ genre, percentage });
+           } %>
+
+
+
         <!-- Print genres in order of frequency-->
         <ol>
             <% for (let i = 0; i < j; i++) { %>
@@ -120,3 +138,45 @@
             <% } %>
         </ol>
     <% } %>
+
+
+    <div id="pie-chart-container">
+        <!-- aria-label and role are for accessibility -->
+        <canvas id="pie-chart" aria-label="Pie Chart Displaying Top Genres" role="img"></canvas>
+    </div>
+    
+   <!-- Chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+/** Critical step** - converts array into string and back into array. Cannot simply use iterator array from above to get data. EJS processes on the server first before html is sent to the client, while the script is client side. Client side is unable to understand the raw meaning of 'iterator' **/
+let dataArr =  <%-JSON.stringify(iterator)%>;
+let percentArr = <%-JSON.stringify(genresWithPercentages)%>;
+
+        const ctx = document.getElementById('pie-chart');
+
+        const dataLabels = [dataArr[0][1], dataArr[1][1], dataArr[2][1], dataArr[3][1], dataArr[4][1], dataArr[5][1]];
+
+        const dataValues = [percentArr[0].percentage, percentArr[1].percentage, percentArr[2].percentage, percentArr[3].percentage, percentArr[4].percentage, percentArr[5].percentage];
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: dataLabels,
+                datasets: [{
+                    backgroundColor: ["#e63946", "#254BDD", "#ffbe0b", "#1d3557", "#326998"],
+                    label: "Percentage of artists' genres",
+                    data: dataValues,
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top Genres'
+                    },
+                }
+            }
+        });
+</script>
