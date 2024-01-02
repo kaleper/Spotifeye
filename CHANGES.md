@@ -22,7 +22,7 @@ WIP (12-31-2023)
 * Added sorting functions to display top genres based on the genres of the user's top artists
 * Added pie chart to display top genres, which uses the Chart.js library
 
-WIP (12-31-2023)
+WIP (01-01-2024)
 ==========================
 * Add project name
 * Add background and formatting to index.ejs
