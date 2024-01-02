@@ -1,4 +1,51 @@
 * {
+    box-sizing: border-box;
     font-weight:normal;
+    margin: 0;
+    padding: 0;
     font-size:1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+body{
+    background-image:url('background2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.wrapper {
+    display: flex;
+    align-items:center;
+}
+img {
+    max-width:200px;
+
+}
+
+#log-in, a {
+    font-size: 0.75rem;
+}
+
+a { 
+    color:white;
+}
+#header-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    gap: 5px;
+
+    color:white;
+}
+
+
+#header-title {
+font-size: 5rem;
+font-weight: bold;
+}
+
+#header-description {
+    font-size: 1.5rem;
 }
