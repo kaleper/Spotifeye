@@ -17,14 +17,19 @@
         <!-- User's Info-->
         <div class="header-container">
             <div id ="logo-container">
-                <h6 id="site-name">spotifeye</h1>
+                <h6 id="site-name">Spotifeye</h1>
                 <img id="logo" src="pupil.png" alt="">
             </div>    
             <div id="user-container">
                 <h1 id=
-                    "greeting-header">Welcome <%= user.display_name %>!
+                    "greeting-header">Welcome, 
+                    <br>
+                    <%= user.display_name %>!
                 </h1>
-                <img id ="profile-picture" src="<%= user.images[1].url %>" alt="User Image"> 
+                <div id ="img-container">
+                    <img id ="profile-picture" src="<%= user.images[1].url %>" alt="User Image"> 
+                </div>
+            
             </div>
         </div> 
 
@@ -63,7 +68,7 @@
 
         <!-- User's Top Genres: Last Month -->
         <div class="top-genres-container">
-            <h6 class="info-header"> Top Genres: Last Month</h6>
+            
                 <% printTopGenres(genreArray) %>
                 <!-- User's Top Genres: Pie Chart-->
                 <div id="pie-chart-container">
@@ -160,18 +165,31 @@ let percentArr = <%-JSON.stringify(genresWithPercentages)%>;
             data: {
                 labels: dataLabels,
                 datasets: [{
-                    backgroundColor: ["#e63946", "#254BDD", "#ffbe0b", "#1d3557", "#326998"],
+                    
+                    backgroundColor: ["#f4f482","#736ced", "#809bce", "#ffbe0b", "#ffac81", "#ccdbfd"],
                     label: "Percentage of artists' genres",
                     data: dataValues,
                 }]
             },
             options: {
+                
                 plugins: {
+                    legend: {
+                        labels: {
+                            color: "white"
+                        }
+                    },
                     title: {
+                        font: {
+                            size: 30,
+                            weight: "Normal"
+                        },                   
                         display: true,
-                        text: 'Top Genres'
+                        text: "Top Genres: Last Month",
+                        color: "White"
                     },
                 }
             }
-        });
+        }
+        );
 </script>
