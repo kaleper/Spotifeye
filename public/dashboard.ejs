@@ -4,56 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dashboard.css">
-    <title>Spotify Data App</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
-
+    <link rel="stylesheet" href="https://fonts.google.com/specimen/Inter">
+     <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>spotifeye</title>
 </head>
+
+
 <body>
-      <!--  <% %> Are EJS tags  -->
-    <h1>Welcome <%= user.display_name %>! <br>
-        <img src="<%= user.images[1].url %>" alt="User Image">
-    </h1>
-        <a href="/authorize">Log in</a>
 
-    <!-- User's Top Tracks: Last Month -->
-    <h6> Top Tracks: Last Month </h6>
-    <ol>
-        <% for (let t of topTracks.items) { %>
-                <li>  Track: <%= t.name %>  </li>
-        
-        <% } %> 
-    </ol>
-
-    <!-- User's Top Artists: Last Month -->
-    <h6> Top Artists: Last Month </h6>
-        <ol>
-        <% for (let a of topArtists.items) { %>
+    <div class ="grid-container">
+        <!-- User's Info-->
+        <div class="header-container">
+            <div id ="logo-container">
+                <h6 id="site-name">spotifeye</h1>
+                <img id="logo" src="pupil.png" alt="">
+            </div>    
+            <div id="user-container">
+                <h1 id=
+                    "greeting-header">Welcome, <%= user.display_name %>!
+                </h1>
+                <div id ="img-container">
+                    <img id ="profile-picture" src="<%= user.images[1].url %>" alt="User Image"> 
+                </div>
             
-                <li>  Artist: <%= a.name %>  </li>
-        
-        <% } %> 
-    </ol>
+            </div>
+        </div> 
 
-    <!-- User's Top Genre's: Last Month-->
+        <!-- User's Top Tracks: Last Month -->
+        <div class="top-tracks-container">
+            <h6 class="info-header"> Top Tracks: Last Month </h6>
+                <ol>
+                    <% for (let t of topTracks.items) { %>
+                        <li> 
+                            <div class= "spotify-data-container">
+                                <img class ="data-img" src="<%= t.album.images[0].url %>"      alt="Track picture" width= "50" height= "50">
+                                <div class="spotify-data">Track: <%= t.name %> 
+                                </div> 
+                            </div>
+                        </li>
+                    <% } %> 
+                </ol>
+            </h1>
+        </div>
+        <!-- User's Top Artists: Last Month -->
+        <div class="top-artists-container">
+            <h6 class="info-header"> Top Artists: Last Month </h6>
+                <ol>
+                <% for (let a of topArtists.items) { %>
+                    <li> 
+                        <div class="spotify-data-container">
+                            <img class ="data-img" src = "<%= a.images[0].url %>" alt="Artist's picture" width= "50" height= "50">  
+                            <div class="spotify-data"> Artist: <%= a.name %>
+                            </div>
+                        </div>
+                    </li>
+                            
+                <% } %> 
+            </ol>
+        </div>
 
-    <!-- Initialize Array with user's top genres of the month-->
-    <% let genreArray = []; %> 
-    <% for (let a of topGenres.items) { %>
-        <% for (let g of a.genres) { %>
-            <% genreArray.push(g); %>
+        <!-- Initialize Array with user's top genres of the month-->
+        <% let genreArray = []; %> 
+        <% for (let a of topGenres.items) { %>
+            <% for (let g of a.genres) { %>
+                <% genreArray.push(g); %>
+            <% } %> 
         <% } %> 
-    <% } %> 
-    <!-- Iterator for the map-->
-    <% let iterator = [] %>
-    <% let iteratorDestination = [] %>
-    <% let genresWithPercentages = []; %>
-    <h6> Top Genres: Last Month</h6>
+
+        <!-- Iterator for the map-->
+        <% let iterator = [] %>
+        <% let iteratorDestination = [] %>
+        <% let genresWithPercentages = []; %>
+
+        <!-- User's Top Genres: Last Month -->
+        <div class="top-genres-container">
+            
+                <% printTopGenres(genreArray) %>
+                <!-- User's Top Genres: Pie Chart-->
+                <h6 class="info-header"> Top Genres: Last Month </h6>
+                <div id="pie-chart-container">
+                <!-- aria-label and role are for accessibility -->
+                <canvas id="pie-chart" aria-label="Pie Chart Displaying Top Genres" role="img"></canvas>
+            </div>
+        </div>
+
+    </div>
     
 
-    <% printTopGenres(genreArray) %>
-    <div id="mydiv" data-test="<%= iterator %>"></div>
- 
+    
+    <!-- EJS FUNCTIONS -->
 
     <!-- Custom comparator function to sort by frequency -->
     <% function compareGenreFrequency(genre, comparedGenre) { %>
@@ -75,7 +115,6 @@
     <% } %>  
 
     <!-- Prints frequency of genres listened to in descending order -->
-
     <% function printTopGenres(genreArray) { %>
 
         <!-- Create map to hold all of genres and their frequencies -->
@@ -113,40 +152,13 @@
         <!-- Sort using custom comparator function -->
         <% iterator.sort(compareGenreFrequency); %>
 
-        // Loop to calculate percentages and populate the new array
-       
+        <!-- Loop to calculate percentages and populate the new array -->
            <% for (let i = 0; i < j; i++) {
                 const genre = iterator[i][1];
                 const percentage = (iterator[i][0] / genreArray.length * 100).toFixed(2);
                 genresWithPercentages.push({ genre, percentage });
            } %>
-
-
-
-        <!-- Print genres in order of frequency-->
-        <ol>
-            <% for (let i = 0; i < j; i++) { %>
-                
-                <li><%="Genre: " + iterator[i][1] %></li>
-            <% } %>
-        </ol>
-
-        <!-- Print genres represented as a percentage of their frequency -->
-        <ol>
-            <% for (let i = 0; i < j; i++) { %>
-                <li> <%="Genre: " + iterator[i][1] + ", " + (iterator[i][0] / genreArray.length * 100).toFixed(2) + "%" %> </li>
-            <% } %>
-        </ol>
-    <% } %>
-
-
-    <div id="pie-chart-container">
-        <!-- aria-label and role are for accessibility -->
-        <canvas id="pie-chart" aria-label="Pie Chart Displaying Top Genres" role="img"></canvas>
-    </div>
-    
-   <!-- Chart -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <% } %>
 
 <script>
 
@@ -165,18 +177,37 @@ let percentArr = <%-JSON.stringify(genresWithPercentages)%>;
             data: {
                 labels: dataLabels,
                 datasets: [{
-                    backgroundColor: ["#e63946", "#254BDD", "#ffbe0b", "#1d3557", "#326998"],
+                    
+                    backgroundColor: ["#f4f482","#736ced", "#809bce", "#ffbe0b", "#ffac81", "#ccdbfd"],
                     label: "Percentage of artists' genres",
                     data: dataValues,
                 }]
             },
             options: {
+                
                 plugins: {
+                    legend: {
+                        labels: {
+                            color: "white",
+                            font: {
+                                size: 25
+                            },
+                        },
+                        align: "center"
+                    },
+                    // Title added separately due to difficulty with margins
                     title: {
-                        display: true,
-                        text: 'Top Genres'
+                        align: "start",
+                        font: {
+                            size: 30,
+                            weight: "Normal"
+                        },                   
+                        display: false,
+                        text: "Top Genres: Last Month",
+                        color: "White"
                     },
                 }
             }
-        });
+        }
+        );
 </script>
