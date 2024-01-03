@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://fonts.google.com/specimen/Inter">
      <!-- Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Spotifeye</title>
+    <title>spotifeye</title>
 </head>
 
 
@@ -17,14 +17,12 @@
         <!-- User's Info-->
         <div class="header-container">
             <div id ="logo-container">
-                <h6 id="site-name">Spotifeye</h1>
+                <h6 id="site-name">spotifeye</h1>
                 <img id="logo" src="pupil.png" alt="">
             </div>    
             <div id="user-container">
                 <h1 id=
-                    "greeting-header">Welcome, 
-                    <br>
-                    <%= user.display_name %>!
+                    "greeting-header">Welcome, <%= user.display_name %>!
                 </h1>
                 <div id ="img-container">
                     <img id ="profile-picture" src="<%= user.images[1].url %>" alt="User Image"> 
@@ -38,7 +36,13 @@
             <h6 class="info-header"> Top Tracks: Last Month </h6>
                 <ol>
                     <% for (let t of topTracks.items) { %>
-                        <li>  Track: <%= t.name %>  </li>
+                        <li> 
+                            <div class= "spotify-data-container">
+                                <img class ="data-img" src="<%= t.album.images[0].url %>"      alt="Track picture" width= "50" height= "50">
+                                <div class="spotify-data">Track: <%= t.name %> 
+                                </div> 
+                            </div>
+                        </li>
                     <% } %> 
                 </ol>
             </h1>
@@ -48,7 +52,14 @@
             <h6 class="info-header"> Top Artists: Last Month </h6>
                 <ol>
                 <% for (let a of topArtists.items) { %>
-                    <li>  Artist: <%= a.name %>  </li>
+                    <li> 
+                        <div class="spotify-data-container">
+                            <img class ="data-img" src = "<%= a.images[0].url %>" alt="Artist's picture" width= "50" height= "50">  
+                            <div class="spotify-data"> Artist: <%= a.name %>
+                            </div>
+                        </div>
+                    </li>
+                            
                 <% } %> 
             </ol>
         </div>
@@ -71,6 +82,7 @@
             
                 <% printTopGenres(genreArray) %>
                 <!-- User's Top Genres: Pie Chart-->
+                <h6 class="info-header"> Top Genres: Last Month </h6>
                 <div id="pie-chart-container">
                 <!-- aria-label and role are for accessibility -->
                 <canvas id="pie-chart" aria-label="Pie Chart Displaying Top Genres" role="img"></canvas>
@@ -176,15 +188,21 @@ let percentArr = <%-JSON.stringify(genresWithPercentages)%>;
                 plugins: {
                     legend: {
                         labels: {
-                            color: "white"
-                        }
+                            color: "white",
+                            font: {
+                                size: 25
+                            },
+                        },
+                        align: "center"
                     },
+                    // Title added separately due to difficulty with margins
                     title: {
+                        align: "start",
                         font: {
                             size: 30,
                             weight: "Normal"
                         },                   
-                        display: true,
+                        display: false,
                         text: "Top Genres: Last Month",
                         color: "White"
                     },
