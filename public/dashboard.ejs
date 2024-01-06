@@ -167,6 +167,8 @@
 <script>
 
 /** Critical step** - converts array into string and back into array. Cannot simply use iterator array from above to get data. EJS processes on the server first before html is sent to the client, while the script is client side. Client side is unable to understand the raw meaning of 'iterator' **/
+
+// Currently not used
 let dataArr =  <%-JSON.stringify(iterator)%>;
 let percentArr = <%-JSON.stringify(genresWithPercentages)%>;
 

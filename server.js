@@ -117,12 +117,15 @@ app.get("/dashboard", async (request, response) => {
     const userTracksInfo = await getData("/me/tracks");
     // Monthly Top
     const userTopTracks = await getData("/me/top/tracks?limit=10&time_range=short_term");
-    // For artists and genres 
+    // For artists 
     const userTopArtists = await getData("/me/top/artists?limit=10&time_range=short_term");
+
+    // For genres - uses top 50 instead of 10 for a bigger sample size (limit of 50 each endpoint)
+    const userTopGenres = await getData("/me/top/artists?limit=50&time_range=short_term");
 
     // Render dashboard, passes user data in to be used in dashboard.ejs
     // Syntax: .render(view [, locals] [, callback]))
-    response.render("dashboard", {user: userInfo, tracks: userTracksInfo.items, topTracks: userTopTracks, topArtists: userTopArtists, topGenres: userTopArtists});
+    response.render("dashboard", {user: userInfo, tracks: userTracksInfo.items, topTracks: userTopTracks, topArtists: userTopArtists, topGenres: userTopGenres});
 })
 
 // API call - Get User's Saved Tracks
