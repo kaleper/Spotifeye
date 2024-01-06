@@ -1,7 +1,7 @@
 {
-    "name": "spotify-app",
-    "version": "0.0.1",
-    "description": "Displays spotify data",
+    "name": "Spotifeye",
+    "version": "1.0.1",
+    "description": "Utilizes Spotify's API to authenticate a user using their Spotify credentials and display their top tracks, artists, and genres.",
     "main": "server.js",
     "scripts": {
         "start": "nodemon server.js"
