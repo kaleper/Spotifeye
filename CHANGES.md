@@ -27,7 +27,7 @@ WIP (01-01-2024)
 * Add project name
 * Add background and formatting to index.ejs
 
-Version 1.0 (01-02-2023)
+Version 1.0 (01-02-2024)
 ==========================
 * Version 1.0 release! Displays top tracks, artists, and genres from last month.
 * Styles added to dashboard.ejs
@@ -35,3 +35,13 @@ Version 1.0 (01-02-2023)
     - Updated margins and grid settings. 
     - Added images to tracks and albums.
     - Added borders to images.
+
+Version 1.0.1 (01-05-2024)
+==========================
+* Gradient background added to dashboard.ejs
+* Added media queries to dashboard.ejs, modifying grid columns and padding for different screen sizes
+* Added disclaimer to dashboard.ejs
+* Added 'GET STARTED' button to index page
+* Added opacity to index to enhance readability
+
+
