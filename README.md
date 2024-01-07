@@ -4,7 +4,7 @@ Utilizes Spotify's API to authenticate a user using their Spotify credentials an
 #### Sources 
 - Chart:<a href=" https://www.chartjs.org/ " title="Chart">Chart by Chart.js</a>
 
-- Font: <a href="https://fonts.google.com/specimen/Inter"="Inter Font"> Font by Rasmus Andersson
+- Font: <a href="https://fonts.google.com/specimen/Inter"="InterFont"> Font by Rasmus Andersson
 
 - Background: <a href='https://www.pexels.com/photo/group-of-people-in-a-concert-1587927/'>
  
