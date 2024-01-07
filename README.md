@@ -1,4 +1,4 @@
-# Spotifeye - Version 1.0
+# Spotifeye - Version 1.0.1
 Utilizes Spotify's API to authenticate a user using their Spotify credentials and display their top tracks, artists, and genres.
 
 #### Sources 
