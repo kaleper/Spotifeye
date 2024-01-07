@@ -1,5 +1,5 @@
 # Spotifeye - Version 1.0.1
-Utilizes Spotify's API to authenticate a user using their Spotify credentials and display their top tracks, artists, and genres.
+Utilizes Spotify's API to authenticate a user using their Spotify credentials and display their top tracks, artists, and genres. Uses Chart.js to graph data.
 
 #### Sources 
 - Chart:<a href= 'https://www.chartjs.org/'> Chart by Chart.js </a>
